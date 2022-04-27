@@ -228,10 +228,8 @@ namespace mets {
     ///
     /// An exception mets::no_moves_error is risen when no move
     /// is possible.
-    void 
-    search() 
-      throw(no_moves_error);
-    
+    void search();
+
     enum {
       ASPIRATION_CRITERIA_MET = abstract_search<move_manager_type>::LAST,
       LAST
@@ -383,7 +381,6 @@ tabu_search (feasible_solution& starting_solution,
 
 template<typename move_manager_t>
 void mets::tabu_search<move_manager_t>::search()
-  throw(no_moves_error)
 {
   typedef abstract_search<move_manager_t> base_t;
   while(!termination_criteria_m(base_t::working_solution_m))

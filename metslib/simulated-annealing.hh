@@ -108,9 +108,7 @@ namespace mets {
     ///
     /// Remember that this is a minimization process.
     ///
-    virtual void
-    search()
-      throw(no_moves_error);
+    virtual void search();
 
     /// @brief The current annealing temperature.
     ///
@@ -198,9 +196,7 @@ simulated_annealing(evaluable_solution& working,
 
 template<typename move_manager_t>
 void
-mets::simulated_annealing<move_manager_t>::search()
-  throw(no_moves_error)
-{
+mets::simulated_annealing<move_manager_t>::search() {
   typedef abstract_search<move_manager_t> base_t;
 
   current_temp_m = starting_temp_m;
