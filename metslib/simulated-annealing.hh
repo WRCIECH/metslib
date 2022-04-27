@@ -134,9 +134,9 @@ namespace mets {
     double current_temp_m;
     double K_m;
 #if defined (METSLIB_HAVE_UNORDERED_MAP) && !defined (METSLIB_TR1_MIXED_NAMESPACE)
-    std::uniform_real<double> ureal;
+    std::uniform_real_distribution<double> ureal;
     std::mt19937 rng;
-    std::variate_generator< std::mt19937, std::uniform_real<double> > gen;
+    decltype(std::bind(ureal, rng)) gen;
 #else
     std::tr1::uniform_real<double> ureal;
     std::tr1::mt19937 rng;

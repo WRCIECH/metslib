@@ -245,9 +245,8 @@ namespace mets {
   void random_shuffle(permutation_problem& p, random_generator& rng)
   {
 #if defined (METSLIB_HAVE_UNORDERED_MAP) && !defined (METSLIB_TR1_MIXED_NAMESPACE)
-    std::uniform_int<size_t> unigen;
-    std::variate_generator<random_generator&, 
-      std::uniform_int<size_t> >gen(rng, unigen);
+    std::uniform_int_distribution<size_t> unigen;
+    auto gen = std::bind(unigen, rng);
 #else
     std::tr1::uniform_int<size_t> unigen;
     std::tr1::variate_generator<random_generator&, 
@@ -264,7 +263,7 @@ namespace mets {
   void perturbate(permutation_problem& p, unsigned int n, random_generator& rng)
   {
 #if defined (METSLIB_HAVE_UNORDERED_MAP) && !defined (METSLIB_TR1_MIXED_NAMESPACE)
-    std::uniform_int<> int_range;
+    std::uniform_int_distribution<> int_range;
 #else
     std::tr1::uniform_int<> int_range;
 #endif
@@ -556,7 +555,7 @@ namespace mets {
   protected:
     random_generator& rng;
 #if defined (METSLIB_HAVE_UNORDERED_MAP) && !defined (METSLIB_TR1_MIXED_NAMESPACE)
-    std::uniform_int<> int_range;
+    std::uniform_int_distribution<> int_range;
 #else
     std::tr1::uniform_int<> int_range;
 #endif
@@ -589,13 +588,13 @@ namespace mets {
   void
   mets::swap_neighborhood<random_generator>::refresh(const mets::feasible_solution& s)
   {
-    permutation_problem& sol = dynamic_cast<permutation_problem&>(s);
+    const permutation_problem& sol = dynamic_cast<const permutation_problem&>(s);
     iterator ii = begin();
     
     // the first n are simple qap_moveS
     for(unsigned int cnt = 0; cnt != n; ++cnt)
       {
-	swap_elements* m = static_cast<swap_elements*>(*ii);
+	const swap_elements* m = static_cast<const swap_elements*>(*ii);
 	randomize_move(*m, sol.size());
 	++ii;
       }
