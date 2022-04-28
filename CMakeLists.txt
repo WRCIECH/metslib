@@ -6,18 +6,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 
-add_executable(PermutationProblem test/permutation_problem_test.cc)
-target_include_directories(PermutationProblem PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-target_compile_definitions(PermutationProblem PUBLIC METSLIB_HAVE_UNORDERED_MAP)
+add_compile_definitions(METSLIB_HAVE_UNORDERED_MAP)
+include_directories(${CMAKE_CURRENT_LIST_DIR})
 
-add_executable(TabuList test/tabu_list_test.cc)
-target_include_directories(TabuList PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-target_compile_definitions(TabuList PUBLIC METSLIB_HAVE_UNORDERED_MAP)
-
-add_executable(Termination test/termination_test.cc)
-target_include_directories(Termination PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-target_compile_definitions(Termination PUBLIC METSLIB_HAVE_UNORDERED_MAP)
-
-add_test(NAME CheckPermutationProblem COMMAND PermutationProblem)
-add_test(NAME CheckTabuList COMMAND TabuList)
-add_test(NAME CheckTermination COMMAND Termination)
+# Do not run tests if the project is not top-level CMake project.
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    add_subdirectory(test)
+endif()
